@@ -69,7 +69,7 @@ async function simulateServerDelay(ms) {
       const res = await checkoutAPI(order);
       console.log(res);
 
-      if (res.response === "success") {
+      if (res.status === "success") {
         showReceipt(res, order, products);
         clearCart();
         renderCart(products);
