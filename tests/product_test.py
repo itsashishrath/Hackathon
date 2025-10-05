@@ -1,7 +1,6 @@
 from fastapi.testclient import TestClient
 from server import app
 
-
 client = TestClient(app)
 
 
@@ -24,7 +23,7 @@ def test_product_fields_and_types():
     response = client.get("/products")
     products = response.json()
 
-    required_fields = {"id": int, "name": str, "price": (float, int), "stock": int, "imageUrl": str}
+    required_fields = {"id": int, "name": str, "price": (float, int), "imageUrl": str}
 
     for product in products:
         for field, field_type in required_fields.items():
@@ -32,8 +31,6 @@ def test_product_fields_and_types():
             assert isinstance(product[field], field_type), f"Field '{field}' has wrong type"
             if field == "price":
                 assert product["price"] >= 0, "Price should be non-negative"
-            if field == "stock":
-                assert product["stock"] >= 0, "Stock should be non-negative"
 
 
 def test_image_url_format():

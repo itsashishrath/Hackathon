@@ -16,11 +16,11 @@ app.add_middleware(
 
 # Hardcoded products added stocks
 products = [
-    {"id": 1, "name": "Product A", "price": 10.99, "stock": 5, "imageUrl": "https://placehold.co/400x200.png?text=Product_1"},
-    {"id": 2, "name": "Product B", "price": 15.49, "stock": 2, "imageUrl": "https://placehold.co/400x200.png?text=Product_2"},
-    {"id": 3, "name": "Product C", "price": 7.99, "stock": 0, "imageUrl": "https://placehold.co/400x200.png?text=Product_3"},
-    {"id": 4, "name": "Product D", "price": 12.99, "stock": 10, "imageUrl": "https://placehold.co/400x200.png?text=Product_4"},
-    {"id": 5, "name": "Product E", "price": 5.99, "stock": 1, "imageUrl": "https://placehold.co/400x200.png?text=Product_5"},
+    {"id": 1, "name": "Product A", "price": 10.99, "imageUrl": "https://placehold.co/400x200.png?text=Product_1"},
+    {"id": 2, "name": "Product B", "price": 15.49, "imageUrl": "https://placehold.co/400x200.png?text=Product_2"},
+    {"id": 3, "name": "Product C", "price": 7.99, "imageUrl": "https://placehold.co/400x200.png?text=Product_3"},
+    {"id": 4, "name": "Product D", "price": 12.99, "imageUrl": "https://placehold.co/400x200.png?text=Product_4"},
+    {"id": 5, "name": "Product E", "price": 5.99, "imageUrl": "https://placehold.co/400x200.png?text=Product_5"},
 ]
 
 app.mount("/home", StaticFiles(directory="frontend", html=True), name="static")
@@ -59,16 +59,6 @@ async def checkout(request: Request):
             product = next((p for p in products if p["id"] == order_item["id"]), None)
             if not product:
                 raise HTTPException(status_code=404, detail=f"Product with ID {order_item['id']} not found.")
-            if product["stock"] <= 0:
-                raise HTTPException(status_code=400, detail=f"Product '{product['name']}' is out of stock.")
-            if order_item["quantity"] > product["stock"]:
-                raise HTTPException(
-                    status_code=400,
-                    detail=f"Requested quantity ({order_item['quantity']}) exceeds available stock ({product['stock']}) for '{product['name']}'."
-                )
-
-            # Update stock and calculate total
-            product["stock"] -= order_item["quantity"]
             total_cost += product["price"] * order_item["quantity"]
 
         return JSONResponse(
@@ -81,7 +71,6 @@ async def checkout(request: Request):
         )
 
     except HTTPException as http_err:
-        # Automatically handled by FastAPI, but you can customize output
         return JSONResponse(
             status_code=http_err.status_code,
             content={"message": http_err.detail, "status": "error"},
