@@ -82,8 +82,18 @@ button:hover {
     line-height: 1.5;
 }
 .cart-content.success {
-    border-top: 4px solid #16a34a; /* green accent */
+    border-top: 4px solid #16a34a;
 }
 .cart-content.error {
-    border-top: 4px solid #dc2626; /* red accent */
+    border-top: 4px solid #dc2626; 
+}
+
+.cart-content.error {
+    border-top: 4px solid #dc2626; /* red */
+}
+
+#error-message {
+    color: #b91c1c;
+    margin-top: 10px;
+    font-weight: 500;
 }

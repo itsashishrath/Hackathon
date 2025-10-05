@@ -65,4 +65,14 @@ export function showReceipt(response, order, products) {
         modal.style.display = 'none';
     };
 }
+ 
+export function showErrorModal(message) {
+    const modal = document.getElementById('error-modal');
+    document.getElementById('error-message').innerText = message;
+    modal.style.display = 'flex';
+    modal.querySelector('#close-error').onclick = () => {
+        modal.style.display = 'none';
+    };
+}
+
 

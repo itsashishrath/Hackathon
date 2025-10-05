@@ -6,9 +6,17 @@ import {
   getCart,
   clearCart,
 } from "./cart.js";
-import { renderProducts, renderCart, toggleCart, showReceipt } from "./ui.js";
+import {
+  renderProducts,
+  renderCart,
+  toggleCart,
+  showReceipt,
+  showErrorModal,
+} from "./ui.js";
 
 let products = [];
+
+const checkoutBtn = document.getElementById("checkout-btn");
 
 document.addEventListener("DOMContentLoaded", async () => {
   products = await fetchProducts();
@@ -43,20 +51,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     .getElementById("close-cart")
     .addEventListener("click", () => toggleCart(false));
 
-  document
-    .getElementById("checkout-btn")
-    .addEventListener("click", async () => {
-      const order = Object.entries(getCart()).map(([id, qty]) => ({
-        id: parseInt(id),
-        quantity: qty,
-      }));
-      const res = await checkoutAPI(order);
+    // Simulate server processing delay for checkout
+async function simulateServerDelay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
-      if (res && res.message) {
+  checkoutBtn.addEventListener("click", async () => {
+    checkoutBtn.disabled = true;
+    checkoutBtn.innerText = "Processing...";
+    const order = Object.entries(getCart()).map(([id, qty]) => ({
+      id: parseInt(id),
+      quantity: qty,
+    }));
+
+    try {
+      await simulateServerDelay(1000); // Simulate 1 second delay
+      const res = await checkoutAPI(order);
+      console.log(res);
+
+      if (res.response === "success") {
         showReceipt(res, order, products);
         clearCart();
         renderCart(products);
         toggleCart(false);
+      } else {
+        showErrorModal(res.message || "Payment failed. Please try again.");
       }
-    });
+    } catch (error) {
+      showErrorModal(error.message);
+    } finally {
+      checkoutBtn.disabled = false;
+      checkoutBtn.innerText = "Checkout";
+    }
+  });
 });
