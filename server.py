@@ -16,12 +16,68 @@ app.add_middleware(
 
 # Hardcoded products added stocks
 products = [
-    {"id": 1, "name": "Product A", "price": 10.99, "imageUrl": "https://placehold.co/400x200.png?text=Product_1"},
-    {"id": 2, "name": "Product B", "price": 15.49, "imageUrl": "https://placehold.co/400x200.png?text=Product_2"},
-    {"id": 3, "name": "Product C", "price": 7.99, "imageUrl": "https://placehold.co/400x200.png?text=Product_3"},
-    {"id": 4, "name": "Product D", "price": 12.99, "imageUrl": "https://placehold.co/400x200.png?text=Product_4"},
-    {"id": 5, "name": "Product E", "price": 5.99, "imageUrl": "https://placehold.co/400x200.png?text=Product_5"},
+    {
+        "id": 1,
+        "name": "Fresh Bananas (1 kg)",
+        "price": 1.49,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Banana-Single.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Whole Milk (1L)",
+        "price": 2.19,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Milk_glass.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Brown Bread Loaf (400g)",
+        "price": 2.99,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Loaf_of_bread..jpg"
+    },
+    {
+        "id": 4,
+        "name": "Free Range Eggs (12 pack)",
+        "price": 3.59,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Eggs_in_carton.jpg"
+    },
+    {
+        "id": 5,
+        "name": "Apples (1 kg)",
+        "price": 2.79,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg"
+    },
+    {
+        "id": 6,
+        "name": "Potato Chips (200g)",
+        "price": 1.99,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/69/Potato-Chips.jpg"
+    },
+    {
+        "id": 7,
+        "name": "Orange Juice (1L)",
+        "price": 3.49,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/05/Orangejuice.jpg"
+    },
+    {
+        "id": 8,
+        "name": "Mangoes (500g)",
+        "price": 5.49,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/40/Mango_4.jpg"
+    },
+    {
+        "id": 9,
+        "name": "Cheddar Cheese (250g)",
+        "price": 4.29,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/45/Cheese.jpg"
+    },
+    {
+        "id": 10,
+        "name": "Tomatoes (500g)",
+        "price": 1.99,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/88/Bright_red_tomato_and_cross_section02.jpg"
+    }
 ]
+
 
 app.mount("/home", StaticFiles(directory="frontend", html=True), name="static")
 
