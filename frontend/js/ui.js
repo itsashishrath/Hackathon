@@ -53,6 +53,9 @@ export function renderCart(products) {
             const input = container.querySelector(`.qty-input[data-id="${id}"]`);
             input.value = parseInt(input.value) + 1;
             addToCart(id);
+            document.getElementById('cart-total').innerText = getTotal(products).toFixed(2);
+
+
         });
     });
 
@@ -65,6 +68,8 @@ export function renderCart(products) {
             if (currentQty > 1) {
                 updateQty(id, currentQty - 1);
             }
+            document.getElementById('cart-total').innerText = getTotal(products).toFixed(2);
+
         });
     });
 }
