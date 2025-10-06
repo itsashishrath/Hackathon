@@ -35,6 +35,19 @@ It allows users to browse products, add them to the cart, update quantities, and
 * [FastAPI](https://fastapi.tiangolo.com/) (Python)
 * RESTful endpoints for `/products` and `/checkout`
 
+
+**Serving Static Files:**
+
+* The **frontend (HTML, CSS, JS)** is served directly by **FastAPI** using `StaticFiles`.
+In `server.py`, this is done with:
+
+  ```python
+  from fastapi.staticfiles import StaticFiles
+
+  app.mount("/home", StaticFiles(directory="frontend", html=True), name="static")
+  ```
+
+
 **Testing:**
 
 * [pytest](https://docs.pytest.org/) for automated backend testing
