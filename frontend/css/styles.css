@@ -48,8 +48,31 @@ button {
     transition: background .2s;
 }
 
-button:hover {
-    background: #1d4ed8;
+button:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
+.add-to-cart-feedback {
+    position: absolute;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.2rem;
+    pointer-events: none;
+    opacity: 0;
+    animation: flyUp 0.8s ease-out forwards;
+    z-index: 1000;
+}
+
+@keyframes flyUp {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
 }
 
 .cart-modal {
@@ -75,6 +98,60 @@ button:hover {
     max-width: 400px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f3f4f6;
+    padding: 8px 10px;
+    border-radius: 8px;
+    gap: 10px;
+}
+
+.cart-item span {
+    flex: 1;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.qty-control {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.qty-control button {
+    background: #2563eb;
+    border: none;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.qty-control button:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
+.qty-input {
+    width: 50px;
+    text-align: center;
+    padding: 4px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+}
+
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 
 #receipt-details {
     margin-top: 10px;

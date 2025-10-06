@@ -1,4 +1,5 @@
-import { addToCart, getCart, getTotal, updateCartCount } from './cart.js';
+import { checkout } from './api.js';
+import { addToCart,updateQty, getCart, getTotal, updateCartCount } from './cart.js';
 
 export function renderProducts(products) {
     const container = document.getElementById('products');
@@ -14,23 +15,75 @@ export function renderProducts(products) {
 
 export function renderCart(products) {
     const cart = getCart();
+    if (Object.keys(cart).length === 0) {
+        document.getElementById('cart-items').innerHTML = '<p>Your cart is empty.</p>';
+        document.getElementById('cart-total').innerText = '0.00';
+        updateCartCount();
+        document.getElementById("checkout-btn").disabled = true;
+        return;
+    }
+    document.getElementById("checkout-btn").disabled = false;
     const container = document.getElementById('cart-items');
     container.innerHTML = '';
+
     for (let id in cart) {
         const product = products.find(p => p.id == id);
         const qty = cart[id];
         const item = document.createElement('div');
         item.className = 'cart-item';
         item.innerHTML = `
-            <span>${product.name} ($${product.price.toFixed(2)})</span>
-            <input type="number" min="1" value="${qty}" data-id="${id}" class="qty-input">
+            <span title="${product.name}">${product.name} ($${product.price.toFixed(2)})</span>
+            <div class="qty-control">
+                <button class="qty-decrease" data-id="${id}" ${qty <= 1 ? 'disabled' : ''}>−</button>
+                <input type="number" min="1" value="${qty}" data-id="${id}" class="qty-input">
+                <button class="qty-increase" data-id="${id}">+</button>
+            </div>
             <button class="remove-item" data-id="${id}">Remove</button>
         `;
         container.appendChild(item);
     }
+
     document.getElementById('cart-total').innerText = getTotal(products).toFixed(2);
     updateCartCount();
+
+    // functionlity for + and − buttons
+    container.querySelectorAll('.qty-increase').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.dataset.id;
+            const input = container.querySelector(`.qty-input[data-id="${id}"]`);
+            input.value = parseInt(input.value) + 1;
+            addToCart(id);
+        });
+    });
+
+    container.querySelectorAll('.qty-decrease').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.dataset.id;
+            const input = container.querySelector(`.qty-input[data-id="${id}"]`);
+            input.value = Math.max(1, parseInt(input.value) - 1);
+            const currentQty = cart[id];
+            if (currentQty > 1) {
+                updateQty(id, currentQty - 1);
+            }
+        });
+    });
 }
+
+export function showAddToCartFeedback(button) {
+    const feedback = document.createElement('span');
+    feedback.className = 'add-to-cart-feedback';
+    feedback.textContent = '+1';
+
+    // position near the button
+    const rect = button.getBoundingClientRect();
+    feedback.style.left = rect.left + rect.width / 2 + 'px';
+    feedback.style.top = rect.top - 10 + 'px';
+
+    document.body.appendChild(feedback);
+
+    setTimeout(() => feedback.remove(), 800);
+}
+
 
 export function toggleCart(show) {
     const modal = document.getElementById('cart-modal');

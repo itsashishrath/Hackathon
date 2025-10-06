@@ -12,6 +12,7 @@ import {
   toggleCart,
   showReceipt,
   showErrorModal,
+  showAddToCartFeedback
 } from "./ui.js";
 
 let products = [];
@@ -23,10 +24,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderProducts(products);
   renderCart(products);
 
+  document.getElementById("cart-button").addEventListener("click", () => toggleCart(true));
+  document.getElementById("close-cart").addEventListener("click", () => toggleCart(false));
+
   document.getElementById("products").addEventListener("click", (e) => {
     if (e.target.classList.contains("add-to-cart")) {
       addToCart(e.target.dataset.id);
       renderCart(products);
+      showAddToCartFeedback(e.target);
     }
   });
 
@@ -44,17 +49,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  document
-    .getElementById("cart-button")
-    .addEventListener("click", () => toggleCart(true));
-  document
-    .getElementById("close-cart")
-    .addEventListener("click", () => toggleCart(false));
-
     // Simulate server processing delay for checkout
-async function simulateServerDelay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+    async function simulateServerDelay(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
 
   checkoutBtn.addEventListener("click", async () => {
     checkoutBtn.disabled = true;
