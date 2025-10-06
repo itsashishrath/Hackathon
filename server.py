@@ -18,61 +18,61 @@ app.add_middleware(
 products = [
     {
         "id": 1,
-        "name": "Fresh Bananas (1 kg)",
+        "name": "Fresh Bananas",
         "price": 1.49,
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Banana-Single.jpg"
     },
     {
         "id": 2,
-        "name": "Whole Milk (1L)",
+        "name": "Whole Milk",
         "price": 2.19,
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Milk_glass.jpg"
     },
     {
         "id": 3,
-        "name": "Brown Bread Loaf (400g)",
+        "name": "Brown Bread Loaf",
         "price": 2.99,
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Loaf_of_bread..jpg"
     },
     {
         "id": 4,
-        "name": "Free Range Eggs (12 pack)",
+        "name": "Free Range Eggs",
         "price": 3.59,
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Eggs_in_carton.jpg"
     },
     {
         "id": 5,
-        "name": "Apples (1 kg)",
+        "name": "Apples",
         "price": 2.79,
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg"
     },
     {
         "id": 6,
-        "name": "Potato Chips (200g)",
+        "name": "Potato Chips",
         "price": 1.99,
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/69/Potato-Chips.jpg"
     },
     {
         "id": 7,
-        "name": "Orange Juice (1L)",
+        "name": "Orange Juice",
         "price": 3.49,
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/05/Orangejuice.jpg"
     },
     {
         "id": 8,
-        "name": "Mangoes (500g)",
+        "name": "Mangoes",
         "price": 5.49,
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/40/Mango_4.jpg"
     },
     {
         "id": 9,
-        "name": "Cheddar Cheese (250g)",
+        "name": "Cheddar Cheese",
         "price": 4.29,
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/45/Cheese.jpg"
     },
     {
         "id": 10,
-        "name": "Tomatoes (500g)",
+        "name": "Tomatoes",
         "price": 1.99,
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/88/Bright_red_tomato_and_cross_section02.jpg"
     }
@@ -116,6 +116,8 @@ async def checkout(request: Request):
             if not product:
                 raise HTTPException(status_code=404, detail=f"Product with ID {order_item['id']} not found.")
             total_cost += product["price"] * order_item["quantity"]
+
+        print("Order received:", data, f"Total: ${total_cost:.2f}")
 
         return JSONResponse(
             status_code=status.HTTP_200_OK,
